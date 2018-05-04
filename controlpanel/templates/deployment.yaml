@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.fabric8.io/update-on-change: "keycloak-proxy"
+  labels:
+{{ include "labels.stakater" . | indent 4 }}
+{{ include "labels.chart" . | indent 4 }}
+  name: {{ template "name" . }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+{{ include "labels.selector" . | indent 6 }}
+      version: {{ .Values.controlpanel.labels.version }}
+  template:
+    metadata:
+      labels:
+{{ include "labels.selector" . | indent 8 }}
+        version: {{ .Values.controlpanel.labels.version }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: "{{ .Values.controlpanel.image.name }}:{{ .Values.controlpanel.image.tag }}"
+        name: {{ template "name" . }}
+      - name: proxy
+        image: {{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}
+        args:
+        - {{ .Values.controlpanel.proxy.args.config }}
+        - {{ .Values.controlpanel.proxy.args.upstreamUrl }}
+        volumeMounts:
+        - name: keycloak-proxy-config
+          mountPath: /etc/config
+      imagePullSecrets:
+      - name: dockerconfigjson
+      volumes:
+      - name: keycloak-proxy-config
+        configMap:
+          name: keycloak-proxy

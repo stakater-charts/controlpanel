@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      fabric8.io/ingress.path: {{ .Values.controlpanel.service.ingressAnnotations.path }}
+      fabric8.io/ingress.annotations: |-
+{{ .Values.controlpanel.service.ingressAnnotations.annotations | indent 8 }}
+    labels:
+{{ include "labels.stakater" . | indent 6 }}
+{{ include "labels.chart" . | indent 6 }}
+      expose: {{ .Values.controlpanel.service.expose | quote }}
+    name: {{ template "name" . }}
+  spec:
+    ports:
+    - name: {{ .Values.controlpanel.service.ports.name }}
+      port: {{ .Values.controlpanel.service.ports.port }}
+      protocol: {{ .Values.controlpanel.service.ports.protocol }}
+      targetPort: {{ .Values.controlpanel.service.ports.targetPort }}
+    selector:
+{{ include "labels.selector" . | indent 6 }}
+      version: {{ .Values.controlpanel.labels.version }}

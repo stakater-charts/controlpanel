@@ -1,0 +1,27 @@
+controlpanel:
+  labels:
+    group: com.stakater.provider
+    provider: stakater
+    version: 1.0.1
+  namespace: dev
+  image:
+    name: dummy
+    tag: 1.0.1
+  proxy:
+    image:
+      name: dummy
+      tag: v2.1.1
+    args:
+      config: --config=/etc/config/config.yml
+      upstreamUrl: --upstream-url=http://100.1.0.0:1234
+  service:
+    ingressAnnotations:
+      path: /
+      annotations: |-
+        ingress.kubernetes.io/rewrite-target: /
+    expose: true
+    ports:
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
