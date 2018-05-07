@@ -19,7 +19,7 @@ items:
     labels:
 {{ include "labels.stakater" . | indent 6 }}
 {{ include "labels.chart" . | indent 6 }}
-      expose: {{ .Values.controlpanel.service.expose | quote }}
+      expose: "{{ .Values.controlpanel.service.expose }}"
     name: {{ template "name" . }}
   spec:
     ports:
