@@ -15,9 +15,9 @@ controlpanel:
       config: /etc/config/config.yml
       upstreamUrl: http://100.1.0.0:1234
   service:
+    ingressPath: /
+    rewriteTarget: /
+    forceSslRedirect: "false"
+    ingressClass: internal-ingress
     annotations:
-      ingressPath: /
-      rewriteTarget: /
-      forceSslRedirect: "false"
-      ingressClass: internal-ingress
     expose: true
