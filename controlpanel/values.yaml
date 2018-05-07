@@ -1,6 +1,6 @@
 controlpanel:
   labels:
-    group: com.stakater.provider
+    group: com.stakater.platform
     provider: stakater
     version: 1.0.1
   namespace: dev
