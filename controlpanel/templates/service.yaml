@@ -5,10 +5,22 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
+    {{- with .Values.controlpanel.service.annotations }}
     annotations:
-      fabric8.io/ingress.path: {{ .Values.controlpanel.service.ingressAnnotations.path }}
+      {{- with .ingressPath }}
+      fabric8.io/ingress.path: {{ . }}
+      {{- end }}
       fabric8.io/ingress.annotations: |-
-{{ .Values.controlpanel.service.ingressAnnotations.annotations | indent 8 }}
+        {{- with .rewriteTarget }}
+        ingress.kubernetes.io/rewrite-target: {{ . }}
+        {{- end }}
+        {{- with .forceSslRedirect }}
+        ingress.kubernetes.io/force-ssl-redirect: {{ . }}
+        {{- end }}
+        {{- with .ingressClass }}
+        kubernetes.io/ingress.class: {{ . }}
+        {{- end }}
+    {{- end }}
     labels:
 {{ include "labels.stakater" . | indent 6 }}
 {{ include "labels.chart" . | indent 6 }}
@@ -16,10 +28,9 @@ items:
     name: {{ template "name" . }}
   spec:
     ports:
-    - name: {{ .Values.controlpanel.service.ports.name }}
-      port: {{ .Values.controlpanel.service.ports.port }}
-      protocol: {{ .Values.controlpanel.service.ports.protocol }}
-      targetPort: {{ .Values.controlpanel.service.ports.targetPort }}
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
     selector:
 {{ include "labels.selector" . | indent 6 }}
-      version: {{ .Values.controlpanel.labels.version }}

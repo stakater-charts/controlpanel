@@ -13,12 +13,10 @@ spec:
   selector:
     matchLabels:
 {{ include "labels.selector" . | indent 6 }}
-      version: {{ .Values.controlpanel.labels.version }}
   template:
     metadata:
       labels:
 {{ include "labels.selector" . | indent 8 }}
-        version: {{ .Values.controlpanel.labels.version }}
     spec:
       containers:
       - env:
@@ -31,8 +29,8 @@ spec:
       - name: proxy
         image: {{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}
         args:
-        - {{ .Values.controlpanel.proxy.args.config }}
-        - {{ .Values.controlpanel.proxy.args.upstreamUrl }}
+        - --config={{ .Values.controlpanel.proxy.args.config }}
+        - --upstream-url={{ .Values.controlpanel.proxy.args.upstreamUrl }}
         volumeMounts:
         - name: keycloak-proxy-config
           mountPath: /etc/config

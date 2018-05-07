@@ -5,23 +5,19 @@ controlpanel:
     version: 1.0.1
   namespace: dev
   image:
-    name: dummy
+    name: docker.tools.stackator.com:443/stakater/controlpanel/master
     tag: 1.0.1
   proxy:
     image:
-      name: dummy
+      name: quay.io/gambol99/keycloak-proxy
       tag: v2.1.1
     args:
-      config: --config=/etc/config/config.yml
-      upstreamUrl: --upstream-url=http://100.1.0.0:1234
+      config: /etc/config/config.yml
+      upstreamUrl: http://100.1.0.0:1234
   service:
-    ingressAnnotations:
-      path: /
-      annotations: |-
-        ingress.kubernetes.io/rewrite-target: /
+    annotations:
+      ingressPath: /
+      rewriteTarget: /
+      forceSslRedirect: "false"
+      ingressClass: internal-ingress
     expose: true
-    ports:
-      name: http
-      port: 80
-      protocol: TCP
-      targetPort: 80
