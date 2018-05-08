@@ -3,7 +3,7 @@ This repository contains 1 chart that is used to deploy controlpanel to kubernet
 - controlpanel
 
 ## Installing
-First install `controlpanel` chart
+Install `controlpanel` chart
 ```
 helm install --name controlpanel chartmuseum/controlpanel
 ```

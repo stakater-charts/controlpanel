@@ -8,8 +8,8 @@ metadata:
 {{ include "labels.chart" . | indent 4 }}
   name: {{ template "name" . }}
 spec:
-  replicas: {{ .Values.controlpanel.replicas }}
-  revisionHistoryLimit: {{ .Values.controlpanel.revisionHistoryLimit }}
+  replicas: {{ .Values.controlpanel.deployment.replicas }}
+  revisionHistoryLimit: {{ .Values.controlpanel.deployment.revisionHistoryLimit }}
   selector:
     matchLabels:
 {{ include "labels.selector" . | indent 6 }}
