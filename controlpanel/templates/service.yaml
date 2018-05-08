@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      fabric8.io/ingress.path: {{ .Values.controlpanel.service.ingressPath }}
+      fabric8.io/ingress.annotations: |-
+        ingress.kubernetes.io/rewrite-target: {{ .Values.controlpanel.service.rewriteTarget }}
+        ingress.kubernetes.io/force-ssl-redirect: {{ .Values.controlpanel.service.forceSslRedirect }}
+        kubernetes.io/ingress.class: {{ .Values.controlpanel.service.ingressClass }}
+        {{- with .Values.controlpanel.service.annotations }}
+        {{- range $key, $value := . }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+        {{- end }}
+    labels:
+{{ include "labels.stakater" . | indent 6 }}
+{{ include "labels.chart" . | indent 6 }}
+      expose: "{{ .Values.controlpanel.service.expose }}"
+    name: {{ template "name" . }}
+  spec:
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+{{ include "labels.selector" . | indent 6 }}
