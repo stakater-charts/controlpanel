@@ -27,7 +27,7 @@ spec:
         image: "{{ .Values.controlpanel.image.name }}:{{ .Values.controlpanel.image.tag }}"
         name: {{ template "name" . }}
       - name: proxy
-        image: {{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}
+        image: "{{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}"
         args:
         - --config={{ .Values.controlpanel.proxy.args.config }}
         - --upstream-url={{ .Values.controlpanel.proxy.args.upstreamUrl }}
