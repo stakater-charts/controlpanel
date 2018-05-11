@@ -23,7 +23,7 @@ provider: {{ .Values.controlpanel.labels.provider }}
 
 {{- define "labels.stakater" -}}
 {{ template "labels.selector" . }}
-version: {{ .Values.controlpanel.labels.version | quote }}
+version: "{{ .Values.controlpanel.labels.version }}"
 {{- end -}}
 
 {{- define "labels.chart" -}}
