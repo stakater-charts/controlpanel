@@ -1,7 +1,7 @@
 apiVersion: v1
 name: controlpanel
 description: controlpanel chart that runs on kubernetes
-version: 1.0.2
+version: 1.0.3
 keywords:
   - controlpanel
   - kubernetes
