@@ -49,5 +49,5 @@ spec:
       volumes:      
       - name: {{ template "name" . }}-config
         configMap: 
-          name: {{ template "name" . }}
+          name: {{ template "name" . }}-conf
     {{- end }}
