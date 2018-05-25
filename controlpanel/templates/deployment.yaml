@@ -35,8 +35,13 @@ spec:
         volumeMounts:
         - name: keycloak-proxy-config
           mountPath: /etc/config
+        - name: {{ template "name" . }}-config
+          mountpath: /etc/cp-config
       volumes:
       - name: keycloak-proxy-config
         configMap:
           name: keycloak-proxy
+      - name: {{ template "name" . }}-config
+        configMap: 
+          name: {{ template "name" . }}
     {{- end }}

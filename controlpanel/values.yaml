@@ -2,7 +2,7 @@ controlpanel:
   labels:
     group: com.stakater.platform
     provider: stakater
-    version: 1.0.1
+    version: "1.0.1"
   namespace: dev
   image:
     name: docker.io/stakater/controlpanel:1.0.5
@@ -10,6 +10,8 @@ controlpanel:
   deployment:
     replicas: 1
     revisionHistoryLimit: 2
+  config:
+    namespaces: "stakater"
   proxy:
     enabled: true
     image:
