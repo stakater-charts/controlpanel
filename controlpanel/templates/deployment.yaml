@@ -26,6 +26,9 @@ spec:
               fieldPath: metadata.namespace
         image: "{{ .Values.controlpanel.image.name }}:{{ .Values.controlpanel.image.tag }}"
         name: {{ template "name" . }}
+        volumeMounts:
+        - name: {{ template "name" . }}-config
+          mountpath: /etc/cp-config
     {{- if .Values.controlpanel.proxy.enabled }}
       - name: proxy
         image: "{{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}"
@@ -34,13 +37,16 @@ spec:
         - --upstream-url={{ .Values.controlpanel.proxy.args.upstreamUrl }}
         volumeMounts:
         - name: keycloak-proxy-config
-          mountPath: /etc/config
-        - name: {{ template "name" . }}-config
-          mountpath: /etc/cp-config
+          mountPath: /etc/config       
       volumes:
       - name: keycloak-proxy-config
         configMap:
           name: keycloak-proxy
+      - name: {{ template "name" . }}-config
+        configMap: 
+          name: {{ template "name" . }}
+    {{- else }}
+      volumes:      
       - name: {{ template "name" . }}-config
         configMap: 
           name: {{ template "name" . }}
