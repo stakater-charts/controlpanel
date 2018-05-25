@@ -34,7 +34,7 @@ spec:
         image: "{{ .Values.controlpanel.proxy.image.name }}:{{ .Values.controlpanel.proxy.image.tag }}"
         args:
         - --config={{ .Values.controlpanel.proxy.args.config }}
-        - --upstream-url={{ .Values.controlpanel.proxy.args.upstreamUrl }}
+        - --upstream-url={{ .Values.controlpanel.proxy.args.upstreamUrl }}        
         volumeMounts:
         - name: keycloak-proxy-config
           mountPath: /etc/config
@@ -45,9 +45,10 @@ spec:
       - name: {{ template "name" . }}-config
         configMap: 
           name: {{ template "name" . }}
-    {{- else }}
+    {{- else }}      
       volumes:      
       - name: {{ template "name" . }}-config
         configMap: 
           name: {{ template "name" . }}-conf
     {{- end }}
+      serviceAccountName: {{ template "name" . }}      
